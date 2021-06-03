@@ -35,7 +35,7 @@ function joinRoom(ws) {
 
     // No friends. :( Let's start our own room
     const i = rooms.push({ one: ws, two: null, state: null })
-    rooms[i].state = createInitialState(i, ws.id)
+    rooms[i - 1].state = createInitialState(i, ws.id)
 
     return i - 1
 }
