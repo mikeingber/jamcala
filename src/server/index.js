@@ -1,5 +1,5 @@
 const express = require('express')
-const { createInitialState } = require('./state')
+const createInitialState = require('./state')
 const expressWs = require('@small-tech/express-ws')(express())
 
 const app = expressWs.app

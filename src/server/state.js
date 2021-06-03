@@ -44,7 +44,7 @@
  */
 
 // TODO
-export const createInitialState = (roomId, playerOneId) => ({
+module.exports = createInitialState = (roomId, playerOneId) => ({
   roomId,
   board: {},
   hand: {},
