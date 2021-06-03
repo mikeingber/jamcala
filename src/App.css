@@ -17,3 +17,7 @@ input {
   height: 32px;
   margin-left: 32px;
 }
+
+.home, .top, .bottom {
+  display: flex;
+}
