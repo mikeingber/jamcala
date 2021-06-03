@@ -1,4 +1,5 @@
 const express = require('express')
+const { createInitialState } = require('./state')
 const expressWs = require('@small-tech/express-ws')(express())
 
 const app = expressWs.app
@@ -6,8 +7,6 @@ const app = expressWs.app
 app.get('/up', function (req, res) {
     res.send('all good!')
 })
-
-const defaultState = {}
 
 /**
 {
@@ -27,13 +26,16 @@ function joinRoom(ws) {
             (!rooms[i].two || rooms[i].two.readyState !== 1)
         ) {
             rooms[i].two = ws
+            rooms[i].state.playerTwo = { id: ws.id }
+            rooms[i].state.mode = 'start-turn'
 
             return i
         }
     }
 
     // No friends. :( Let's start our own room
-    const i = rooms.push({ one: ws, two: null, state: defaultState })
+    const i = rooms.push({ one: ws, two: null, state: null })
+    rooms[i].state = createInitialState(i, ws.id)
 
     return i - 1
 }
