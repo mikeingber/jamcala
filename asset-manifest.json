@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/jamcala/static/css/main.9d5b29c0.chunk.css",
+    "main.js": "/jamcala/static/js/main.d5f99a6d.chunk.js",
+    "main.js.map": "/jamcala/static/js/main.d5f99a6d.chunk.js.map",
+    "runtime-main.js": "/jamcala/static/js/runtime-main.ce50d7ab.js",
+    "runtime-main.js.map": "/jamcala/static/js/runtime-main.ce50d7ab.js.map",
+    "static/js/2.d61c24c3.chunk.js": "/jamcala/static/js/2.d61c24c3.chunk.js",
+    "static/js/2.d61c24c3.chunk.js.map": "/jamcala/static/js/2.d61c24c3.chunk.js.map",
+    "static/js/3.480b2e37.chunk.js": "/jamcala/static/js/3.480b2e37.chunk.js",
+    "static/js/3.480b2e37.chunk.js.map": "/jamcala/static/js/3.480b2e37.chunk.js.map",
+    "index.html": "/jamcala/index.html",
+    "static/css/main.9d5b29c0.chunk.css.map": "/jamcala/static/css/main.9d5b29c0.chunk.css.map",
+    "static/js/2.d61c24c3.chunk.js.LICENSE.txt": "/jamcala/static/js/2.d61c24c3.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.ce50d7ab.js",
+    "static/js/2.d61c24c3.chunk.js",
+    "static/css/main.9d5b29c0.chunk.css",
+    "static/js/main.d5f99a6d.chunk.js"
+  ]
+}
