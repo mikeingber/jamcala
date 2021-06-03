@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 import './App.css';
+import useWebsocket, { ReadyState } from 'react-use-websocket'
+import shortid from 'shortid';
 
-// if this were TS...
-// export type Board = {
-//   pits: number[][]
-// }
+const connectionState = {
+  [ReadyState.CONNECTING]: 'Connecting...',
+  [ReadyState.OPEN]: 'Connected',
+  [ReadyState.CLOSING]: 'Closing...',
+  [ReadyState.CLOSED]: 'Closed',
+  [ReadyState.UNINSTANTIATED]: 'Not Ready',
+}
 
 // 14 pits for now, assume there are always 14 pits. future adapt to different nums of pits
 // player 1, player 2
@@ -43,11 +48,25 @@ const initialBoard = {
 }
 
 function App() {
-  const [board, setBoard] = React.useState(initialBoard)
+  const id = useMemo(() => {
+    let id = localStorage.getItem('userID')
+    if (!id) {
+      id = shortid.generate()
+      localStorage.setItem('userID', id)
+    }
+
+    return id
+  }, [])
+
+  const { sendJsonMessage: send, lastJsonMessage: state, readyState } = useWebsocket(`ws://127.0.0.1:3001/join/${id}`)
+  const [debug, setDebug] = useState(true)
+
+  const isPlayerOne = state?.playerOne.id === id
+  const partnerID = isPlayerOne ? state?.playerTwo.id : state?.playerOne.id
 
   const renderPit = (index) => (
-    <ul key={index} onClick={() => setBoard(manc(board, index))}>
-      {board.pits[index].map(stoneId => (
+    <ul key={index} onClick={() => /*setBoard(manc(board, index))*/{}}>
+      {state?.board.pits[index].map(stoneId => (
         <li key={stoneId}>{stoneId}</li>
       ))}
     </ul>
@@ -55,7 +74,7 @@ function App() {
 
   return (
     <div>
-      <div className="pits">
+      {/*<div className="pits">
         <div className="home">
           {renderPit(0)}
         </div>
@@ -70,7 +89,23 @@ function App() {
         <div className="home">
           {renderPit(7)}
         </div>
-      </div>
+      </div>*/}
+
+      <button onClick={() => send('hi')}>Test</button>
+
+      <label>
+        <input type="checkbox" onChange={(e) => setDebug(e.target.checked)} />
+        Debug
+      </label>
+      {debug && (<div className="debug">
+        <p>Status: {connectionState[readyState]}, Room: {state?.roomID}</p>
+        <p>Player ID: {id} ({isPlayerOne ? 'P1' : 'P2'})</p>
+        <p>Partner ID: {partnerID}</p>
+        <p>State:</p>
+        <pre style={{ backgroundColor: '#efefef', padding: '10px' }}>
+          {JSON.stringify(state, null, 2)}
+        </pre>
+      </div>)}
     </div>
   );
 }
