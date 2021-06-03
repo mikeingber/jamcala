@@ -77,8 +77,8 @@ app.ws('/join/:id', function (ws, req) {
     console.log(`Player ${ws.id} joined room ${roomID}`)
 
     // Send initial state on join
-    rooms[roomID].one?.send(rooms[roomID].state)
-    rooms[roomID].two?.send(rooms[roomID].state)
+    rooms[roomID].one?.send(JSON.stringify(rooms[roomID].state))
+    rooms[roomID].two?.send(JSON.stringify(rooms[roomID].state))
 
     // Add a hook for when we recieve a message from the clients
     const clientAction = function(msg) {

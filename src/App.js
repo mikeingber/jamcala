@@ -61,8 +61,8 @@ function App() {
   const { sendJsonMessage: send, lastJsonMessage: state, readyState } = useWebsocket(`ws://127.0.0.1:3001/join/${id}`)
   const [debug, setDebug] = useState(true)
 
-  const isPlayerOne = state?.playerOne.id === id
-  const partnerID = isPlayerOne ? state?.playerTwo.id : state?.playerOne.id
+  const isPlayerOne = state?.playerOne?.id === id
+  const partnerID = isPlayerOne ? state?.playerTwo?.id : state?.playerOne?.id
 
   const renderPit = (index) => (
     <ul key={index} onClick={() => /*setBoard(manc(board, index))*/{}}>
@@ -98,7 +98,7 @@ function App() {
         Debug
       </label>
       {debug && (<div className="debug">
-        <p>Status: {connectionState[readyState]}, Room: {state?.roomID}</p>
+        <p>Status: {connectionState[readyState]}, Room: {state?.roomId}</p>
         <p>Player ID: {id} ({isPlayerOne ? 'P1' : 'P2'})</p>
         <p>Partner ID: {partnerID}</p>
         <p>State:</p>
