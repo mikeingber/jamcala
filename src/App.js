@@ -91,7 +91,7 @@ function App() {
         </div>
       </div>*/}
 
-      <button onClick={() => send('hi')}>Test</button>
+      <button onClick={() => send({action: 'pick-up', payload: { pit: 2 }})}>Test</button>
 
       <label>
         <input type="checkbox" onChange={(e) => setDebug(e.target.checked)} />
