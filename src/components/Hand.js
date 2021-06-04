@@ -77,7 +77,6 @@ const Hand = ({ isMyTurn, state, send }) => {
 
 const Container = styled.div`
   flex: 1;
-  background-color: #ddd;
   padding: 20px;
 `
 

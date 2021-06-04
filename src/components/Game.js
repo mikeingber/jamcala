@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Hand from './Hand'
 import Pit from './Pit'
+import Scoreboard from './Scoreboard'
 
 const getPitsFromMyPerspective = (state, isPlayerOne) => {
   const { pits = [] } = state.board || {}
@@ -90,7 +91,13 @@ const Game = ({ state, isMyTurn, isPlayerOne, send }) => {
           />
         </Pool>
       </Board>
-      <Hand isMyTurn={isMyTurn} state={state} send={send} />
+      <Bottom>
+        <Hand isMyTurn={isMyTurn} state={state} send={send} />
+        <Scoreboard
+          me={isPlayerOne ? state.playerOne : state.playerTwo}
+          opponent={isPlayerOne ? state.playerTwo : state.playerOne}
+        />
+      </Bottom>
     </Container>
   )
 }
@@ -121,6 +128,12 @@ const Pits = styled.div`
   .row {
     display: flex;
   }
+`;
+
+const Bottom = styled.div`
+  flex: 1;
+  display: flex;
+  background-color: #ddd;
 `;
 
 export default Game
