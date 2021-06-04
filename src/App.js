@@ -12,6 +12,8 @@ const connectionState = {
   [ReadyState.UNINSTANTIATED]: 'Not Ready',
 }
 
+const server = process.env.NODE_ENV === 'production' ? 'wss://chipmancala.herokuapp.com' : 'ws://localhost:3001'
+
 function App() {
   const id = useMemo(() => {
     let id = localStorage.getItem('userID')
@@ -20,8 +22,6 @@ function App() {
       localStorage.setItem('userID', id)
     }
 
-    
-
     return id
   }, [])
 
@@ -29,7 +29,7 @@ function App() {
     sendJsonMessage,
     lastJsonMessage: state,
     readyState,
-  } = useWebsocket(`ws://127.0.0.1:3001/join/${id}`)
+  } = useWebsocket(`${server}/join/${id}`)
   const [debug, setDebug] = useState(false)
 
   const send = (action, payload) => {

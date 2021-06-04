@@ -1,13 +1,18 @@
 const express = require('express')
+const path = require('path')
 const createInitialState = require('./state')
 const expressWs = require('@small-tech/express-ws')(express())
 const dictionary = require('./dictionary')
 
 const app = expressWs.app
 
+// healthcheck
 app.get('/up', function (req, res) {
     res.send('all good!')
 })
+
+// serve front-end
+app.use(express.static(path.resolve(__dirname, '../../build')))
 
 /**
 {
@@ -180,10 +185,7 @@ app.ws('/join/:id', function (ws, req) {
     rooms[roomID].two?.on('message', clientAction)
 })
 
-if (require.main == module) {
-    app.listen(process.env.PORT, () => {
-        console.log(`Listening on 127.0.0.1:${process.env.PORT}`)
-    })
-}
-
-module.exports = app
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
+    console.log(`Listening on 127.0.0.1:${PORT}`)
+})
