@@ -84,11 +84,16 @@ const Hand = ({ isMyTurn, state, send }) => {
         ))}
       </Letters>
       {state.mode === 'making-word' && isMyTurn && (
-        <Input
-          value={word}
-          onChange={e => setWord(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && submitWord()}
-        />
+        <>
+          <Input
+            value={word}
+            onChange={e => setWord(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && submitWord()}
+          />
+          <div>
+            <button onClick={() => send('pass', {})}>Pass</button>
+          </div>
+        </>
       )}
     </Container>
   )
@@ -97,6 +102,9 @@ const Hand = ({ isMyTurn, state, send }) => {
 const Container = styled.div`
   flex: 1;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px 0;
 `
 
 const Instruction = styled.div``
@@ -104,7 +112,6 @@ const Instruction = styled.div``
 const Letters = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin: 12px 0;
   gap: 0 4px;
 `;
 

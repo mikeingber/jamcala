@@ -130,6 +130,13 @@ function updateState(msg, roomID) {
             if (!isValid) return state
             break
         }
+        case 'pass': {
+            const isP1 = state.activePlayerId === state.playerOne.id
+            state.activePlayerId = isP1 ? state.playerTwo.id : state.playerOne.id
+            state.hand = {}
+            state.mode = 'start-turn'
+            break
+        }
         default:
             console.log(`Unknown action ${msg.action}`)
     }
