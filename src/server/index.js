@@ -113,8 +113,15 @@ function updateState(msg, roomID) {
                 }
             } else {
                 const isOwnPit = state.hand.pitId.includes(`p${isP1 ? 1 : 2}-pit`)
+                let freeWord = false
                 const isOwnPool = state.hand.pitId.includes(`p${isP1 ? 1 : 2}-pool`)
-                if (isOwnPool || (isOwnPit && state.hand.hasCrossedOpponentsPool)) {
+                if (isOwnPool) {
+                    const pool = state.board.pits.find(pit => pit.id === `p${isP1 ? 1 : 2}-pool`)
+                    if (pool.letters.length >= 3) {
+                        freeWord = true
+                    }
+                }
+                if (freeWord || (isOwnPit && state.hand.hasCrossedOpponentsPool)) {
                     // if on own side and has crossed opponents pool, pick up and keep going
                     pickUp(state, state.hand.pitId)
                 } else {
