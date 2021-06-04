@@ -91,7 +91,8 @@ const Hand = ({ isMyTurn, state, send }) => {
             onKeyDown={e => e.key === 'Enter' && submitWord()}
           />
           <div>
-            <button onClick={() => send('pass', {})}>Pass</button>
+            <Button color="#aaffbb" onClick={() => submitWord()}>Submit</Button>
+            <Button color="#ffaabb" onClick={() => send('pass', {})}>Pass</Button>
           </div>
         </>
       )}
@@ -121,5 +122,16 @@ const Input = styled.input`
   font-size: 36px;
   padding: 8px;
 `;
+
+const Button = styled.button`
+  padding: 8px;
+  border: 1px solid #333;
+  background-color: ${({ color }) => color};
+  margin-right: 5px;
+
+  :hover {
+    border: 1px solid #444;
+  }
+`
 
 export default Hand
