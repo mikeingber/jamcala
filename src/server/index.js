@@ -54,9 +54,13 @@ const pickUp = (state, pitId) => {
     const pitIndex = state.board.pits.findIndex(pit => pit.id === pitId)
     const pit = state.board.pits[pitIndex]
     state.hand.letters = [...pit.letters]
-    state.hand.pitId = state.board.pits[(pitIndex + 1) % state.board.pits.length].id
     pit.letters = []
-    state.mode = 'dropping-letters'
+    if (pitId.includes('pool')) {
+        state.mode = 'making-word'
+    } else {
+        state.mode = 'dropping-letters'
+        state.hand.pitId = state.board.pits[(pitIndex + 1) % state.board.pits.length].id
+    }
 }
 
 /*
@@ -111,7 +115,8 @@ function updateState(msg, roomID) {
             break
         }
         case 'make-word': {
-            makeWord(msg.payload.word, roomID);
+            const isValid = makeWord(msg.payload.word, state);
+            if (!isValid) return state
             break
         }
         default:
@@ -122,8 +127,32 @@ function updateState(msg, roomID) {
     return state
 }
 
-function makeWord(word, roomID) {
-   console.log('word: ' + word + ' is valid: ' + dictionary.isValidWord(word));
+function makeWord(word, state) {
+   if (!dictionary.isValidWord(word)) {
+       console.log('Invalid word!', word)
+       return false
+   }
+
+   // remove letters from hand
+   const isP1 = state.activePlayerId === state.playerOne.id
+   const pit = state.board.pits.find(pit => pit.id === `p${isP1 ? 1 : 2}-pool`)
+   word.split('').forEach(letter => {
+       const idx = state.hand.letters.findIndex(l => l === letter)
+       state.hand.letters.splice(idx, 1)
+   })
+   // put remaining letters back into pit
+   pit.letters = state.hand.letters
+   state.hand = {}
+   // add word, score to player
+   const player = isP1 ? state.playerOne : state.playerTwo
+   player.foundWords = player.foundWords || []
+   player.foundWords.push(word)
+   player.score = player.score || 0
+   player.score += 0 // TODO: scoring
+   // advance turn
+   state.activePlayerId = isP1 ? state.playerTwo.id : state.playerOne.id
+   state.mode = 'start-turn'
+   return true
 }
 
 app.ws('/join/:id', function (ws, req) {

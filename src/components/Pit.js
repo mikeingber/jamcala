@@ -20,9 +20,9 @@ const Pit = ({ letters, id, isPlayerOne, clickable, handleClick, isDropping }) =
 
 const List = styled.ul`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px 0;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
   list-style: none;
   border: 1px solid grey;
   border-radius: 10px;
