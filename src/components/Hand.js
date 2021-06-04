@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Letter from './Letter'
 
 // all copy TODO
 const getInstruction = (state, isMyTurn) => {
@@ -61,7 +62,7 @@ const Hand = ({ isMyTurn, state, send }) => {
       <Instruction>{getInstruction(state, isMyTurn)}</Instruction>
       <Letters>
         {state.hand.letters?.map((letter, i) => (
-          <Letter key={i} onClick={() => onClickLetter(letter)}>{letter}</Letter>
+          <Letter key={i} letter={letter} onClick={() => onClickLetter(letter)}/>
         ))}
       </Letters>
       {state.mode === 'making-word' && isMyTurn && (
@@ -88,21 +89,21 @@ const Letters = styled.div`
   margin: 12px 0;
 `;
 
-const Letter = styled.div`
-  font-size: 36px;
-  margin: 8px;
-  cursor: pointer;
-  width: 50px;
-  height: 50px;
-  border: 1px solid #ccc;
-  text-align: center;
-  line-height: 50px;
-  border-radius: 2px;
+// const Letter = styled.div`
+//   font-size: 36px;
+//   margin: 8px;
+//   cursor: pointer;
+//   width: 50px;
+//   height: 50px;
+//   border: 1px solid #ccc;
+//   text-align: center;
+//   line-height: 50px;
+//   border-radius: 2px;
 
-  :hover {
-    background-color: #ccc;
-  }
-`;
+//   :hover {
+//     background-color: #ccc;
+//   }
+// `;
 
 const Input = styled.input`
   height: 36px;
