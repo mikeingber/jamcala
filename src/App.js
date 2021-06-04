@@ -3,6 +3,7 @@ import './App.css';
 import useWebsocket, { ReadyState } from 'react-use-websocket'
 import shortid from 'shortid';
 import Game from './components/Game';
+import styled from 'styled-components';
 
 const connectionState = {
   [ReadyState.CONNECTING]: 'Connecting...',
@@ -41,13 +42,17 @@ function App() {
 
   return (
     <div>
+      <Header>
+        <img src="/logo.svg" style={{ width: '128px', padding: '0 20px' }} />
+        <h1>Chipmancala</h1>
+      </Header>
+
       <Game
         state={state}
         isMyTurn={state?.activePlayerId === id}
         isPlayerOne={isPlayerOne}
         send={send}
       />
-
 
       <label>
         <input type="checkbox" checked={debug} onChange={(e) => setDebug(e.target.checked)} />
@@ -65,5 +70,19 @@ function App() {
     </div>
   );
 }
+
+const Header = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: -40px;
+  margin-bottom: -30px;
+
+  h1 {
+    font-size: 3em;
+    margin-top: 70px;
+    font-family: 'NYTFranklin';
+  }  
+`
 
 export default App;

@@ -1,0 +1,29 @@
+@font-face {
+    font-family: "NYTMagSans";
+                src: url('./fonts/magsans-normal-500.ttf');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "NYTMagSans";
+                src: url('./fonts/magsans-normal-700.ttf');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: "NYTFranklin";
+                src: url('./fonts/NYTFranklinMedium.otf');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "NYTFranklin";
+                src: url('./fonts/NYTFranklinBold.otf');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: "NYTFranklin";
+                src: url('./fonts/NYTFranklinExtraBold.otf');
+    font-weight: 900;
+}
