@@ -9,6 +9,7 @@ const Pit = ({ letters, id, isPlayerOne, clickable, handleClick, isDropping }) =
       onClick={() => clickable && handleClick && handleClick()}
       isPlayerOne={isPlayerOne}
       clickable={clickable}
+      isDropping={isDropping}
     >
       {letters?.map((letter, i) => (
         <li key={i}><Letter letter={letter} /></li>
@@ -24,7 +25,7 @@ const List = styled.ul`
   justify-content: center;
   gap: 4px;
   list-style: none;
-  border: 1px solid grey;
+  border: solid ${({ isDropping }) => isDropping ? '3px blue' : '1px grey'};
   border-radius: 10px;
   margin: 8px;
   font-size: 18px;
