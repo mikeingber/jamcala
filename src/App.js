@@ -24,18 +24,22 @@ function App() {
   }, [])
 
   const {
-    sendJsonMessage: send,
+    sendJsonMessage,
     lastJsonMessage: state,
     readyState,
   } = useWebsocket(`ws://127.0.0.1:3001/join/${id}`)
   const [debug, setDebug] = useState(true)
+
+  const send = (action, payload) => {
+    return sendJsonMessage({ action, payload: { ...payload, moveId: state.moveId } })
+  }
 
   const isPlayerOne = state?.playerOne?.id === id
   const partnerID = isPlayerOne ? state?.playerTwo?.id : state?.playerOne?.id
 
   return (
     <div>
-      <button onClick={() => send({action: 'pick-up', payload: { pit: 2 }})}>Test</button>
+      <button onClick={() => send('pick-up', { pit: 2 })}>Test</button>
 
       <label>
         <input type="checkbox" checked={debug} onChange={(e) => setDebug(e.target.checked)} />

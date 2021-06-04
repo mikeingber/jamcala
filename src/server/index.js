@@ -49,6 +49,15 @@ function joinRoom(ws) {
     return i - 1
 }
 
+const pickUp = (state, pitId) => {
+    const pitIndex = state.board.pits.findIndex(pit => pit.id === pitId)
+    const pit = state.board.pits[pitIndex]
+    state.hand.letters = [...pit.letters]
+    state.hand.pitId = state.board.pits[(pitIndex + 1) % state.board.pits.length].id
+    pit.letters = []
+    state.mode = 'dropping-letters'
+}
+
 /*
 msg: {
     action: '...',
@@ -56,25 +65,60 @@ msg: {
 }
 */
 function updateState(msg, roomID) {
+    const state = rooms[roomID].state
     if (!msg || !msg.action) {
         console.log(`malformed client message: ${msg}`)
-        return rooms[roomID].state
+        return state
     }
-
-    switch (msg.action) {
-        case 'pick-up':
+    const { action, payload } = msg
+    if (state.moveId !== payload.moveId) {
+        console.log('Mismatching moveIds')
+        return state
+    }
+    switch (action) {
+        case 'pick-up': {
             // pickup(msg.payload, roomID)...
+            pickUp(state, payload.pit)
             break
-        case 'drop':
+        }
+        case 'drop': {
             // drop(msg.payload, roomID) ...
+            const letterIdx = state.hand.letters.findIndex(l => l === payload.letter)
+            state.hand.letters.splice(letterIdx, 1)
+            // TODO: DRY
+            const pitIndex = state.board.pits.findIndex(pit => pit.id === state.hand.pitId)
+            const pit = state.board.pits[pitIndex]
+            pit.letters.push(payload.letter)
+
+            if (state.hand.letters.length > 0) {
+                // keep going
+                // TODO: DRY
+                state.hand.pitId = state.board.pits[(pitIndex + 1) % state.board.pits.length].id 
+            } else {
+                const isP1 = state.activePlayerId === state.playerOne.id
+                const isOwnPit = isP1 ? state.hand.pitId.includes('p1-pit') : state.hand.pitId.includes('p2-pit')
+                if (isOwnPit) {
+                    // if on own side, pick up and keep going
+                    pickUp(state, state.hand.pitId)
+                } else {
+                    // if on opponents side, end turn
+                    state.hand = {}
+                    state.activePlayerId = isP1 ? state.playerTwo.id : state.playerOne.id
+                    state.mode = 'start-turn'
+                }
+            }
             break
-        case '...':
+        }
+        case 'make-word': {
+            // TODO
             break
+        }
         default:
             console.log(`Unknown action ${msg.action}`)
     }
 
-    return rooms[roomID].state
+    state.moveId++
+    return state
 }
 
 app.ws('/join/:id', function (ws, req) {

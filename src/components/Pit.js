@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Pit = ({ letters, isPlayerOne, clickable, handleClick, isDropping }) => {
+const Pit = ({ letters, id, isPlayerOne, clickable, handleClick, isDropping }) => {
   return (
     <List
+      id={id}
       onClick={() => clickable && handleClick && handleClick()}
       isPlayerOne={isPlayerOne}
       clickable={clickable}

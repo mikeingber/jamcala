@@ -40,7 +40,10 @@ const Game = ({ state, isMyTurn, isPlayerOne, send }) => {
   const opponentPits = pits.filter((_, i) => i > myPoolIndex && i < opponentPoolIndex)
 
   const isPitClickable = (pit) => state.mode === 'start-turn' && isMyTurn && pit.letters.length > 0
-  const pickUpLetters = (pit) => () => send({ action: 'pick-up', payload: { pit: pit.id } })
+  const pickUpLetters = (pit) => () => {
+    console.log("SENDING!")
+    send('pick-up', { pit: pit.id })
+  }
 
   return (
     <Container>
@@ -54,10 +57,18 @@ const Game = ({ state, isMyTurn, isPlayerOne, send }) => {
         </Pool>
         <Pits>
           <div className="row">
-            {opponentPits.map(pit => <Pit key={pit.id} {...pit} isPlayerOne={!isPlayerOne} isDropping={state.hand?.pitId === pit.id} />)}
+            {opponentPits.reverse().map(pit => (
+              <Pit
+                key={pit.id}
+                {...pit}
+                isPlayerOne={!isPlayerOne}
+                isDropping={state.hand?.pitId === pit.id}
+                />
+              )
+            )}
           </div>
           <div className="row">
-            {myPits.reverse().map(pit => (
+            {myPits.map(pit => (
               <Pit
                 key={pit.id}
                 {...pit}

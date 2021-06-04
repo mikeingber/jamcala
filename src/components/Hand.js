@@ -25,7 +25,7 @@ const Hand = ({ isMyTurn, state, send }) => {
   
   const onClickLetter = (letter) => {
     if (state.mode === 'dropping-letters') {
-      send({ action: 'drop', payload: { letter } })
+      send('drop', { letter })
     }
 
     if (state.mode === 'making-word') {
@@ -52,7 +52,7 @@ const Hand = ({ isMyTurn, state, send }) => {
       })
 
     if (wordUsesLetters) {
-      send({ action: 'make-word', payload: { word } })
+      send('make-word', { word })
     }
   }
   

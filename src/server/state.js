@@ -1,7 +1,7 @@
 /**
  * type Pit {
  *  id: string;
- *  stones: string[];
+ *  letters: string[];
  * }
  * 
  * type Board {
@@ -15,7 +15,7 @@
  * }
  * 
  * type Hand {
- *  stones: string[];
+ *  letters: string[];
  *  pitId: string;
  * }
  * 
@@ -100,6 +100,7 @@ module.exports = (roomId, playerOneId) => {
       id: playerOneId,
       score: 0,
     },
-    playerTwo: null
+    playerTwo: null,
+    moveId: 0,
   }
 }
