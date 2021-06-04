@@ -28,14 +28,19 @@ function App() {
     lastJsonMessage: state,
     readyState,
   } = useWebsocket(`ws://127.0.0.1:3001/join/${id}`)
-  const [debug, setDebug] = useState(true)
+  const [debug, setDebug] = useState(false)
 
   const isPlayerOne = state?.playerOne?.id === id
   const partnerID = isPlayerOne ? state?.playerTwo?.id : state?.playerOne?.id
 
   return (
     <div>
-      <button onClick={() => send({action: 'pick-up', payload: { pit: 2 }})}>Test</button>
+      <Game
+        state={state}
+        isMyTurn={state?.activePlayerId === id}
+        isPlayerOne={isPlayerOne}
+        send={send}
+      />
 
       <label>
         <input type="checkbox" checked={debug} onChange={(e) => setDebug(e.target.checked)} />
@@ -50,13 +55,6 @@ function App() {
           {JSON.stringify(state, null, 2)}
         </pre>
       </div>)}
-
-      <Game
-        state={state}
-        isMyTurn={state?.activePlayerId === id}
-        isPlayerOne={isPlayerOne}
-        send={send}
-      />
     </div>
   );
 }
