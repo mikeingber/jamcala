@@ -43,7 +43,7 @@ function App() {
   return (
     <div>
       <Header>
-        <img src="/logo.svg" style={{ width: '128px', padding: '0 20px' }} />
+        <img src="/logo.svg" style={{ width: '100px', padding: '0 20px' }} />
         <h1>Chipmancala</h1>
       </Header>
 
@@ -75,7 +75,7 @@ const Header = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: -40px;
+  margin-top: -20px;
   margin-bottom: -30px;
 
   h1 {
