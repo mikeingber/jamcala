@@ -55,6 +55,8 @@ function App() {
       localStorage.setItem('userID', id)
     }
 
+    
+
     return id
   }, [])
 
@@ -92,6 +94,8 @@ function App() {
       </div>*/}
 
       <button onClick={() => send('hi')}>Test</button>
+      <button onClick={() => send({action: 'make-word', payload: { word: 'apple' }})}>Test Valid Word</button>
+      <button onClick={() => send({action: 'make-word', payload: { word: 'ghdjs' }})}>Test Not Valid Word</button>
 
       <label>
         <input type="checkbox" onChange={(e) => setDebug(e.target.checked)} />
