@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { toast } from 'react-toastify';
-import { statement } from '@babel/template';
-
+import Letter from './Letter'
 
 // all copy TODO
 const getInstruction = (state, isMyTurn) => {
@@ -81,7 +80,7 @@ const Hand = ({ isMyTurn, state, send }) => {
       <Instruction>{getInstruction(state, isMyTurn)}</Instruction>
       <Letters>
         {state.hand.letters?.map((letter, i) => (
-          <Letter key={i} onClick={() => onClickLetter(letter)}>{letter}</Letter>
+          <Letter key={i} letter={letter} onClick={() => onClickLetter(letter)}/>
         ))}
       </Letters>
       {state.mode === 'making-word' && isMyTurn && (
@@ -106,22 +105,7 @@ const Letters = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin: 12px 0;
-`;
-
-const Letter = styled.div`
-  font-size: 36px;
-  margin: 8px;
-  cursor: pointer;
-  width: 50px;
-  height: 50px;
-  border: 1px solid #ccc;
-  text-align: center;
-  line-height: 50px;
-  border-radius: 2px;
-
-  :hover {
-    background-color: #ccc;
-  }
+  gap: 0 4px;
 `;
 
 const Input = styled.input`

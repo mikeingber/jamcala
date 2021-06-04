@@ -1,13 +1,19 @@
 const express = require('express')
+const path = require('path')
 const createInitialState = require('./state')
 const expressWs = require('@small-tech/express-ws')(express())
 const dictionary = require('./dictionary')
+const letterScores = require('./letters')
 
 const app = expressWs.app
 
+// healthcheck
 app.get('/up', function (req, res) {
     res.send('all good!')
 })
+
+// serve front-end
+app.use(express.static(path.resolve(__dirname, '../../build')))
 
 /**
 {
@@ -168,7 +174,12 @@ function makeWord(word, state) {
    player.foundWords = player.foundWords || []
    player.foundWords.push(word)
    player.score = player.score || 0
-   player.score += 0 // TODO: scoring
+
+   word.split('').forEach(letter => {
+    var score = letterScores[letter]
+    player.score += score
+   })
+
    // advance turn
    state.activePlayerId = isP1 ? state.playerTwo.id : state.playerOne.id
    state.mode = 'start-turn'
@@ -200,10 +211,7 @@ app.ws('/join/:id', function (ws, req) {
     rooms[roomID].two?.on('message', clientAction)
 })
 
-if (require.main == module) {
-    app.listen(process.env.PORT, () => {
-        console.log(`Listening on 127.0.0.1:${process.env.PORT}`)
-    })
-}
-
-module.exports = app
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
+    console.log(`Listening on 127.0.0.1:${PORT}`)
+})

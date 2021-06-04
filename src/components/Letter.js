@@ -2,11 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import letters from '../server/letters'
 
-const Letter = ({ letter }) => {
+const Letter = ({ letter, onClick }) => {
     const value = letters[letter]
 
     return (
-        <Box>
+        <Box onClick={onClick}>
             <Ltr>{letter}</Ltr>
             <Val>{value}</Val>
         </Box>
@@ -21,12 +21,16 @@ const Box = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-`
 
+    :hover {
+        background-color: #ccc;
+    }
+`
 const Ltr = styled.span`
     font-weight: 700;
     font-size: 1.4em;
     padding-top: 5px;
+    text-align: center;
 `
 const Val = styled.span`
     font-weight: 300;
