@@ -1,6 +1,7 @@
 const express = require('express')
 const createInitialState = require('./state')
 const expressWs = require('@small-tech/express-ws')(express())
+const dictionary = require('./dictionary')
 
 const app = expressWs.app
 
@@ -110,7 +111,7 @@ function updateState(msg, roomID) {
             break
         }
         case 'make-word': {
-            // TODO
+            makeWord(msg.payload.word, roomID);
             break
         }
         default:
@@ -119,6 +120,10 @@ function updateState(msg, roomID) {
 
     state.moveId++
     return state
+}
+
+function makeWord(word, roomID) {
+   console.log('word: ' + word + ' is valid: ' + dictionary.isValidWord(word));
 }
 
 app.ws('/join/:id', function (ws, req) {

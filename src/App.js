@@ -20,6 +20,8 @@ function App() {
       localStorage.setItem('userID', id)
     }
 
+    
+
     return id
   }, [])
 
@@ -28,7 +30,7 @@ function App() {
     lastJsonMessage: state,
     readyState,
   } = useWebsocket(`ws://127.0.0.1:3001/join/${id}`)
-  const [debug, setDebug] = useState(true)
+  const [debug, setDebug] = useState(false)
 
   const send = (action, payload) => {
     return sendJsonMessage({ action, payload: { ...payload, moveId: state.moveId } })
@@ -39,7 +41,16 @@ function App() {
 
   return (
     <div>
-      <button onClick={() => send('pick-up', { pit: 2 })}>Test</button>
+      <button onClick={() => send({action: 'make-word', payload: { word: 'apple' }})}>Test Valid Word</button>
+      <button onClick={() => send({action: 'make-word', payload: { word: 'ghdjs' }})}>Test Not Valid Word</button>
+
+      <Game
+        state={state}
+        isMyTurn={state?.activePlayerId === id}
+        isPlayerOne={isPlayerOne}
+        send={send}
+      />
+
 
       <label>
         <input type="checkbox" checked={debug} onChange={(e) => setDebug(e.target.checked)} />
@@ -54,13 +65,6 @@ function App() {
           {JSON.stringify(state, null, 2)}
         </pre>
       </div>)}
-
-      <Game
-        state={state}
-        isMyTurn={state?.activePlayerId === id}
-        isPlayerOne={isPlayerOne}
-        send={send}
-      />
     </div>
   );
 }

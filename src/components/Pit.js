@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Letter from './Letter'
 
 const Pit = ({ letters, id, isPlayerOne, clickable, handleClick, isDropping }) => {
   return (
@@ -10,7 +11,7 @@ const Pit = ({ letters, id, isPlayerOne, clickable, handleClick, isDropping }) =
       clickable={clickable}
     >
       {letters?.map((letter, i) => (
-        <li key={i}>{letter}</li>
+        <li key={i}><Letter letter={letter} /></li>
       ))}
       {isDropping && <Dropping key='dropping'>_</Dropping>}
     </List>
