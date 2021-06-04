@@ -220,6 +220,12 @@ app.ws('/join/:id', function (ws, req) {
     rooms[roomID].one?.send(JSON.stringify(rooms[roomID].state))
     rooms[roomID].two?.send(JSON.stringify(rooms[roomID].state))
 
+    // Send the state every 30 sec as a 'heartbeat' to keep the connection alive
+    setInterval(() => {
+        rooms[roomID].one?.send(JSON.stringify(rooms[roomID].state))
+        rooms[roomID].two?.send(JSON.stringify(rooms[roomID].state))
+    }, 30000)
+
     // Add a hook for when we recieve a message from the clients
     const clientAction = function(msg) {
         console.log(`Got message: ${msg}`)
