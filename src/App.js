@@ -3,6 +3,7 @@ import './App.css';
 import useWebsocket, { ReadyState } from 'react-use-websocket'
 import shortid from 'shortid';
 import Game from './components/Game';
+import Rules from './components/Rules'
 import styled from 'styled-components';
 
 const connectionState = {
@@ -31,7 +32,8 @@ function App() {
     lastJsonMessage: state,
     readyState,
   } = useWebsocket(`${server}/join/${id}`)
-  const [debug, setDebug] = useState(false)
+  // const [debug, setDebug] = useState(false)
+  const [modalActive, setModalVisibility] = useState(false)
 
   const send = (action, payload) => {
     return sendJsonMessage({ action, payload: { ...payload, moveId: state.moveId } })
@@ -46,6 +48,14 @@ function App() {
         <img src="/logo.svg" style={{ width: '100px', padding: '0 20px' }} />
         <h1>Chipmancala</h1>
       </Header>
+      <StatusBar>
+        <span><b>Status:</b> {connectionState[readyState]}</span>
+        <span><b>Room:</b> {state?.roomId}</span>
+        <span>{isPlayerOne ? 'You are Player 1' : 'You are Player 2'}</span>
+        <span onClick={() => setModalVisibility(!modalActive)}>?</span>
+      </StatusBar>
+
+      <Rules show={modalActive} toggle={setModalVisibility} />
 
       <Game
         state={state}
@@ -54,7 +64,7 @@ function App() {
         send={send}
       />
 
-      <label>
+      {/*<label>
         <input type="checkbox" checked={debug} onChange={(e) => setDebug(e.target.checked)} />
         Debug
       </label>
@@ -66,7 +76,7 @@ function App() {
         <pre style={{ backgroundColor: '#efefef', padding: '10px', height: '100px', overflow: 'auto' }}>
           {JSON.stringify(state, null, 2)}
         </pre>
-      </div>)}
+      </div>)}*/}
     </div>
   );
 }
@@ -83,6 +93,29 @@ const Header = styled.div`
     margin-top: 70px;
     font-family: 'NYTFranklin';
   }  
+`
+const StatusBar = styled.div`
+  display: flex;
+  align-items: flex-start;
+  background-color: #eee;
+  padding-left: 40px;
+
+  span {
+    padding: 8px;
+    margin-right: 15px;
+
+    :last-child {
+      border: 5px solid #88f;
+      color: #88f;
+      font-weight: 800;
+      border-radius: 32px;
+      width: 16px;
+      text-align: center;
+      font-size: 18px;
+      line-height: 15px;
+      cursor: pointer;
+    }
+  }
 `
 
 export default App;
