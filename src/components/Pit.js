@@ -19,12 +19,16 @@ const Pit = ({ letters, id, isPlayerOne, clickable, handleClick, isDropping }) =
 }
 
 const List = styled.ul`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px 0;
   list-style: none;
   border: 1px solid grey;
   border-radius: 10px;
   margin: 8px;
   font-size: 18px;
-  padding: 0;
+  padding: 4px 0;
   text-align: center;
   flex: 1;
 
@@ -37,6 +41,9 @@ const List = styled.ul`
 `;
 
 const Dropping = styled.li`
+  height: 50px;
+  width: 50px;
+  font-size: 1.4em;
   animation: blink-animation 1s steps(3, start) infinite;
   @keyframes blink-animation {
     to {

@@ -96,8 +96,8 @@ const Game = ({ state, isMyTurn, isPlayerOne, send }) => {
 }
 
 const Container = styled.div`
-  width: 800px;
-  height: 600px;
+  width: 1200px;
+  height: 800px;
   border: 1px solid black;
   margin: 20px;
   padding: 20px;
@@ -112,7 +112,7 @@ const Board = styled.div`
 
 const Pool = styled.div`
   display: flex;
-  width: 120px;
+  width: 180px;
 `;
 
 const Pits = styled.div`
