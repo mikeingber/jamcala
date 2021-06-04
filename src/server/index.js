@@ -112,8 +112,9 @@ function updateState(msg, roomID) {
                     state.hand.hasCrossedOpponentsPool = true
                 }
             } else {
-                const isOwnPit = isP1 ? state.hand.pitId.includes('p1-pit') : state.hand.pitId.includes('p2-pit')
-                if (isOwnPit && state.hand.hasCrossedOpponentsPool) {
+                const isOwnPit = state.hand.pitId.includes(`p${isP1 ? 1 : 2}-pit`)
+                const isOwnPool = state.hand.pitId.includes(`p${isP1 ? 1 : 2}-pool`)
+                if (isOwnPool || (isOwnPit && state.hand.hasCrossedOpponentsPool)) {
                     // if on own side and has crossed opponents pool, pick up and keep going
                     pickUp(state, state.hand.pitId)
                 } else {
