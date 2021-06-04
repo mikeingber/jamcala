@@ -16,10 +16,14 @@ module.exports = {
     n: 1,
     o: 1,
     p: 2,
+    q: 4,
     r: 1,
+    // no s
     t: 1,
     u: 1,
     v: 3,
     w: 3,
+    x: 4,
     y: 3,
+    z: 4,
 }
