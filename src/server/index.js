@@ -94,6 +94,7 @@ function updateState(msg, roomID) {
         }
         case 'drop': {
             // drop(msg.payload, roomID) ...
+            const isP1 = state.activePlayerId === state.playerOne.id
             const letterIdx = state.hand.letters.findIndex(l => l === payload.letter)
             state.hand.letters.splice(letterIdx, 1)
             // TODO: DRY
@@ -104,12 +105,16 @@ function updateState(msg, roomID) {
             if (state.hand.letters.length > 0) {
                 // keep going
                 // TODO: DRY
-                state.hand.pitId = state.board.pits[(pitIndex + 1) % state.board.pits.length].id 
+                state.hand.pitId = state.board.pits[(pitIndex + 1) % state.board.pits.length].id
+                const opponentPoolId = `p${isP1 ? 2 : 1}-pool`
+                if (state.hand.pitId === opponentPoolId) {
+                    state.hand.pitId = state.board.pits[(pitIndex + 2) % state.board.pits.length].id
+                    state.hand.hasCrossedOpponentsPool = true
+                }
             } else {
-                const isP1 = state.activePlayerId === state.playerOne.id
                 const isOwnPit = isP1 ? state.hand.pitId.includes('p1-pit') : state.hand.pitId.includes('p2-pit')
-                if (isOwnPit) {
-                    // if on own side, pick up and keep going
+                if (isOwnPit && state.hand.hasCrossedOpponentsPool) {
+                    // if on own side and has crossed opponents pool, pick up and keep going
                     pickUp(state, state.hand.pitId)
                 } else {
                     // if on opponents side, end turn
