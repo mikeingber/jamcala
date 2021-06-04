@@ -41,9 +41,6 @@ function App() {
 
   return (
     <div>
-      <button onClick={() => send({action: 'make-word', payload: { word: 'apple' }})}>Test Valid Word</button>
-      <button onClick={() => send({action: 'make-word', payload: { word: 'ghdjs' }})}>Test Not Valid Word</button>
-
       <Game
         state={state}
         isMyTurn={state?.activePlayerId === id}

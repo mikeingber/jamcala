@@ -3,6 +3,7 @@ const path = require('path')
 const createInitialState = require('./state')
 const expressWs = require('@small-tech/express-ws')(express())
 const dictionary = require('./dictionary')
+const letterScores = require('./letters')
 
 const app = expressWs.app
 
@@ -153,7 +154,12 @@ function makeWord(word, state) {
    player.foundWords = player.foundWords || []
    player.foundWords.push(word)
    player.score = player.score || 0
-   player.score += 0 // TODO: scoring
+
+   word.split('').forEach(letter => {
+    var score = letterScores[letter]
+    player.score += score
+   })
+
    // advance turn
    state.activePlayerId = isP1 ? state.playerTwo.id : state.playerOne.id
    state.mode = 'start-turn'
