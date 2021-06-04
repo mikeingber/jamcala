@@ -29,6 +29,15 @@ function joinRoom(ws) {
             rooms[i].state.playerTwo = { id: ws.id }
             rooms[i].state.mode = 'start-turn'
 
+            // TEMP, dummy data for UI:
+            // rooms[i].state.mode = 'dropping-letters'
+            // rooms[i].state.hand.letters = ['a', 'e', 'i', 'o']
+            // rooms[i].state.hand.pitId = 'p1-pit2'
+
+            // rooms[i].state.mode = 'making-word'
+            // rooms[i].state.hand.letters = ['a', 'e', 'i', 'o']
+            // END TEMP
+
             return i
         }
     }

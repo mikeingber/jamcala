@@ -16,14 +16,14 @@
  * 
  * type Hand {
  *  stones: string[];
- *  pitLocation: number;
+ *  pitId: string;
  * }
  * 
  * type GameState {
  *  roomId: string;
  *  board: Board;
  *  hand: Hand;
- *  mode: string; // start-turn, holding-stones, end
+ *  mode: string; // before-start, start-turn, dropping-letters, making-word, end
  *  activePlayerId: string;
  *  playerOne: Player
  *  playerTwo: Player
@@ -37,7 +37,7 @@
  *  letter: string; // BE will validate that this is in hand
  * }
  * 
- * type MakeWordPayload {
+ * type MakeWordActionPayload {
  *  word: string;
  * }
  * 
