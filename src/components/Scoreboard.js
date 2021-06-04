@@ -5,7 +5,7 @@ const Scoreboard = ({ me, opponent }) => {
   return (
     <Container>
       {[me, opponent].map((player, i) => (
-        <div>
+        <div key={player.id}>
           {i ? 'Opponent' : 'You'} - {player.score || 0}
           <ul>
             {(player.foundWords || []).map((word, i) => <li key={i}>{word}</li>)}

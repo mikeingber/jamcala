@@ -1,5 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { toast } from 'react-toastify';
+import { statement } from '@babel/template';
+
 
 // all copy TODO
 const getInstruction = (state, isMyTurn) => {
@@ -22,6 +25,13 @@ const Hand = ({ isMyTurn, state, send }) => {
     // ensure word is cleared at beginning of turn
     setWord('')
   }, [state.mode])
+
+  React.useEffect(() => {
+    if (state.wordNotFound) {
+      toast.error('Not a valid word!')
+      setWord('')
+    }
+  }, [state.wordNotFound])
   
   const onClickLetter = (letter) => {
     if (state.mode === 'dropping-letters') {
@@ -34,7 +44,11 @@ const Hand = ({ isMyTurn, state, send }) => {
   }
 
   const submitWord = () => {
-    if (word.length < 4) return
+    if (word.length < 4) {
+      toast.error('Word too short!')
+      setWord('')
+      return
+    }
     const { letters = [] } = state.hand || {}
 
     // validate TODO test this out
@@ -50,6 +64,12 @@ const Hand = ({ isMyTurn, state, send }) => {
         letterCounts[letter]--
         return true
       })
+
+    if (!wordUsesLetters) {
+      toast.error('You don\'t have all the letters to make that word!')
+      setWord('')
+      return
+    }
 
     if (wordUsesLetters) {
       send('make-word', { word })

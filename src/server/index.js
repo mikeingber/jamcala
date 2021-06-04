@@ -124,14 +124,34 @@ function updateState(msg, roomID) {
     }
 
     state.moveId++
+    state.wordNotFound = false
     return state
 }
 
+const canMakeWordFromHand = (word, state) => {
+    const handLetterCounts = state.hand.letters.reduce((acc, letter) => {
+        acc[letter] = acc[letter] || 0
+        acc[letter]++
+        return acc
+    }, {})
+    return word.split('').every(letter => {
+        if (!handLetterCounts[letter]) return false
+        handLetterCounts[letter]--
+        return true
+    })
+}
+
 function makeWord(word, state) {
-   if (!dictionary.isValidWord(word)) {
+    if (!canMakeWordFromHand(word, state)) {
+        console.log('You don\'t have all the letters to make that word')
+        return false
+    }
+    
+    if (!dictionary.isValidWord(word)) {
        console.log('Invalid word!', word)
+       state.wordNotFound = true
        return false
-   }
+    }
 
    // remove letters from hand
    const isP1 = state.activePlayerId === state.playerOne.id

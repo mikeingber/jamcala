@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Hand from './Hand'
 import Pit from './Pit'
 import Scoreboard from './Scoreboard'
@@ -48,6 +50,7 @@ const Game = ({ state, isMyTurn, isPlayerOne, send }) => {
 
   return (
     <Container>
+      <ToastContainer />
       <Board>
         <Pool>
           <Pit
