@@ -134,6 +134,8 @@ function updateState(msg, roomID) {
         case 'pass': {
             const isP1 = state.activePlayerId === state.playerOne.id
             state.activePlayerId = isP1 ? state.playerTwo.id : state.playerOne.id
+            const myPool = state.board.pits.find(pit => pit.id === `p${isP1 ? 1 : 2}-pool`)
+            myPool.letters = state.hand.letters
             state.hand = {}
             state.mode = 'start-turn'
             break

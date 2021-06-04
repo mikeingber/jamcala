@@ -43,7 +43,7 @@ const Hand = ({ isMyTurn, state, send }) => {
   }
 
   const submitWord = () => {
-    if (word.length < 4) {
+    if (word.length < 3) {
       toast.error('Word too short!')
       setWord('')
       return
